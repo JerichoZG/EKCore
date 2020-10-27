@@ -26,7 +26,8 @@ PlayerFrame.SetPoint = function()
 end
 
 PetFrame:ClearAllPoints()
-PetFrame:SetPoint("BOTTOMLEFT", PlayerFrame, "BOTTOMLEFT", -20, -22)
+PetFrame:SetPoint("TOP", UIParent, "BOTTOM", 0, -20)
+PetFrame:SetScale(0.8)
 PetFrame.SetPoint = function()
 end
 
