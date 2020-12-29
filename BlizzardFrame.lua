@@ -16,17 +16,17 @@ hooksecurefunc(	"PlayerFrame_UpdateStatus",	function()
 ]] --
 
 TargetFrame:ClearAllPoints()
-TargetFrame:SetPoint("CENTER", UIParent, "CENTER", 350, -200)
+TargetFrame:SetPoint('CENTER', UIParent, 'CENTER', 350, -200)
 TargetFrame.SetPoint = function()
 end
 
 PlayerFrame:ClearAllPoints()
-PlayerFrame:SetPoint("CENTER", UIParent, "CENTER", -350, -200)
+PlayerFrame:SetPoint('CENTER', UIParent, 'CENTER', -350, -200)
 PlayerFrame.SetPoint = function()
 end
 
 PetFrame:ClearAllPoints()
-PetFrame:SetPoint("TOP", UIParent, "BOTTOM", 0, -20)
+PetFrame:SetPoint('TOP', UIParent, 'BOTTOM', 0, -20)
 PetFrame:SetScale(0.8)
 PetFrame.SetPoint = function()
 end
@@ -34,17 +34,17 @@ end
 -- Bossframe
 
 for i = 1, 5 do
-	local BF = _G["Boss" .. i .. "TargetFrame"]
+	local BF = _G['Boss' .. i .. 'TargetFrame']
 	BF:SetParent(UIParent)
 	BF:SetScale(1.2)
 end
 
 for i = 2, 5 do
-	_G["Boss" .. i .. "TargetFrame"]:SetPoint("TOPLEFT", _G["Boss" .. (i - 1) .. "TargetFrame"], "BOTTOMLEFT", 0, 0)
+	_G['Boss' .. i .. 'TargetFrame']:SetPoint('TOPLEFT', _G['Boss' .. (i - 1) .. 'TargetFrame'], 'BOTTOMLEFT', 0, 0)
 end
 
 Boss1TargetFrame:ClearAllPoints()
-Boss1TargetFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 50, -200)
+Boss1TargetFrame:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', 50, -200)
 Boss1TargetFrame.SetPoint = function()
 end
 
@@ -55,7 +55,7 @@ end
 MicroButtonAndBagsBar:Hide()
 MicroButtonAndBagsBar.Show = dummy
 CharacterMicroButton:ClearAllPoints()
-CharacterMicroButton:SetPoint("CENTER", UIParent, "BOTTOMRIGHT", -275, -20)
+CharacterMicroButton:SetPoint('CENTER', UIParent, 'BOTTOMRIGHT', -275, -20)
 CharacterMicroButton.SetPoint = dummy
 --
 
@@ -72,10 +72,10 @@ test marco
 ]]
 hooksecurefunc(
 	AlertFrame,
-	"UpdateAnchors",
+	'UpdateAnchors',
 	function(self, ...)
 		AlertFrame:ClearAllPoints()
-		AlertFrame:SetPoint("TOP", UIParent, "TOP", -500, -650)
+		AlertFrame:SetPoint('TOP', UIParent, 'TOP', -500, -650)
 		AlertFrame:SetScale(0.8)
 	end
 )
@@ -84,11 +84,11 @@ hooksecurefunc(
 
 local mode = 3
 -- 對話框縮放/移動/隱藏
-local frame = CreateFrame("Frame")
+local frame = CreateFrame('Frame')
 function frame:OnEvent(event, addon)
-	if addon == "Blizzard_TalkingHeadUI" then
+	if addon == 'Blizzard_TalkingHeadUI' then
 		hooksecurefunc(
-			"TalkingHeadFrame_PlayCurrent",
+			'TalkingHeadFrame_PlayCurrent',
 			function()
 				local THF = TalkingHeadFrame
 				if mode == 1 then
@@ -100,24 +100,24 @@ function frame:OnEvent(event, addon)
 					THF:SetClampedToScreen(true)
 					THF.ignoreFramePositionManager = true
 					THF:ClearAllPoints()
-					THF:SetPoint("CENTER", UIParent, "LEFT", 0, 0)
-					THF.TextFrame.Text:SetFont(GameFontNormal:GetFont(), 20, "THINOUTLINE")
-					THF.NameFrame.Name:SetFont(GameFontNormal:GetFont(), 20, "THINOUTLINE")
+					THF:SetPoint('CENTER', UIParent, 'LEFT', 0, 0)
+					THF.TextFrame.Text:SetFont(GameFontNormal:GetFont(), 20, 'THINOUTLINE')
+					THF.NameFrame.Name:SetFont(GameFontNormal:GetFont(), 20, 'THINOUTLINE')
 				end
 			end
 		)
 		self:UnregisterEvent(event)
 	end
 end
-frame:RegisterEvent("ADDON_LOADED")
-frame:RegisterEvent("MODIFIER_STATE_CHANGED")
-frame:SetScript("OnEvent", frame.OnEvent)
+frame:RegisterEvent('ADDON_LOADED')
+frame:RegisterEvent('MODIFIER_STATE_CHANGED')
+frame:SetScript('OnEvent', frame.OnEvent)
 
 -- [[ 非隱藏時，將對話框錨點與alertframe分離 ]] --
 
 hooksecurefunc(
 	AlertFrame,
-	"AddAlertFrameSubSystem",
+	'AddAlertFrameSubSystem',
 	function(self, alertFrameSubSystem)
 		if alertFrameSubSystem.anchorFrame == TalkingHeadFrame then
 			for i, alertSubSystem in pairs(AlertFrame.alertFrameSubSystems) do

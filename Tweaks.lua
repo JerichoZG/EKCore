@@ -33,8 +33,8 @@
 local function defaultsetting()
 	-- Interface
 	BossBanner:UnregisterAllEvents() -- 不顯示橫幅(擊敗首領/圖隊拾取)
-	SetCVar("cameraDistanceMaxZoomFactor", 2.6) -- 最遠視距，預設1.9
-	SetCVar("guildRosterView", 1) -- 公會預設排列方式
+	SetCVar('cameraDistanceMaxZoomFactor', 2.6) -- 最遠視距，預設1.9
+	SetCVar('guildRosterView', 1) -- 公會預設排列方式
 	SetActionBarToggles(true, false, true, false) -- 自動啟用快捷列：左下右下右一右二(登入生效)
 	SetSortBagsRightToLeft(true) -- 順向整理背包
 	SetInsertItemsLeftToRight(true) -- 反向放置戰利品
@@ -54,19 +54,19 @@ local function defaultsetting()
 	QuestFont:SetFont(STANDARD_TEXT_FONT, 18) -- 描述
 	QuestFont:SetShadowOffset(0, 0)
 	QuestFontNormalSmall:SetFont(STANDARD_TEXT_FONT, 18)
-	 -- 目標
+	-- 目標
 	QuestFontNormalSmall:SetShadowOffset(0, 0)
 	QuestFontHighlight:SetFont(STANDARD_TEXT_FONT, 18) -- 內容
 	QuestFontHighlight:SetShadowOffset(0, 0)
 end
 
-local DFS = CreateFrame("FRAME", "defaultsetting")
-DFS:RegisterEvent("PLAYER_LOGIN") -- or use PLAYER_ENTERING_WORLD
-DFS:RegisterEvent("VARIABLES_LOADED")
+local DFS = CreateFrame('FRAME', 'defaultsetting')
+DFS:RegisterEvent('PLAYER_LOGIN') -- or use PLAYER_ENTERING_WORLD
+DFS:RegisterEvent('VARIABLES_LOADED')
 local function eventHandler(self, event, ...)
 	defaultsetting()
 end
-DFS:SetScript("OnEvent", eventHandler)
+DFS:SetScript('OnEvent', eventHandler)
 
 -- [[ 根據地點調整亮度 ]] --
 
@@ -88,32 +88,33 @@ local ID = {
 }
 
 local function changeGamma()
-	local MapId = C_Map.GetBestMapForUnit("player")
+	local MapId = C_Map.GetBestMapForUnit('player')
 	if MapId and ID[MapId] then
-		SetCVar("Gamma", 1.2)
+		SetCVar('Gamma', 1.2)
 	else
-		SetCVar("Gamma", 1)
+		SetCVar('Gamma', 1)
 	end
 end
 
-local CG = CreateFrame("Frame", "changeGamma")
-CG:RegisterEvent("PLAYER_LOGIN")
-CG:RegisterEvent("PLAYER_ENTERING_WORLD")
-CG:RegisterEvent("ZONE_CHANGED")
-CG:RegisterEvent("ZONE_CHANGED_INDOORS")
-CG:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+local CG = CreateFrame('Frame', 'changeGamma')
+CG:RegisterEvent('PLAYER_LOGIN')
+CG:RegisterEvent('PLAYER_ENTERING_WORLD')
+CG:RegisterEvent('ZONE_CHANGED')
+CG:RegisterEvent('ZONE_CHANGED_INDOORS')
+CG:RegisterEvent('ZONE_CHANGED_NEW_AREA')
 local function eventHandler(self, event, ...)
 	changeGamma()
 end
-CG:SetScript("OnEvent", eventHandler)
+CG:SetScript('OnEvent', eventHandler)
 
 -- [[ 節日隨機自動排 ]] --
 
 LFDParentFrame:HookScript(
-	"OnShow",
+	'OnShow',
 	function()
 		for i = 1, GetNumRandomDungeons() do
-			local id, name = GetLFGRandomDungeonInfo(i)
+			local id,
+				name = GetLFGRandomDungeonInfo(i)
 			local isHoliday = select(15, GetLFGDungeonInfo(id))
 			if isHoliday and not GetLFGDungeonRewards(id) then
 				LFDQueueFrame_SetType(id)
@@ -125,8 +126,8 @@ LFDParentFrame:HookScript(
 -- [[ 自動輸入delete ]] --
 
 hooksecurefunc(
-	StaticPopupDialogs["DELETE_GOOD_ITEM"],
-	"OnShow",
+	StaticPopupDialogs['DELETE_GOOD_ITEM'],
+	'OnShow',
 	function(boxEditor)
 		boxEditor.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
 	end
@@ -134,44 +135,45 @@ hooksecurefunc(
 
 -- [[ raid和m+自動戰鬥紀錄 ]] --
 
-local AutoLog = CreateFrame("Frame")
+local AutoLog = CreateFrame('Frame')
 AutoLog:SetScript(
-	"OnEvent",
+	'OnEvent',
 	function()
-		local _, instanceType = IsInInstance()
+		local _,
+			instanceType = IsInInstance()
 		local difficulty = select(3, GetInstanceInfo())
-		if instanceType == "raid" or difficulty == 8 then
+		if instanceType == 'raid' or difficulty == 8 then
 			if not LoggingCombat() then
 				LoggingCombat(true)
-				print("|cff00FF00" .. COMBATLOGENABLED .. "|r")
+				print('|cff00FF00' .. COMBATLOGENABLED .. '|r')
 			end
 		else
 			if LoggingCombat() then
 				LoggingCombat(false)
-				print("|cffFF0000" .. COMBATLOGDISABLED .. "|r")
+				print('|cffFF0000' .. COMBATLOGDISABLED .. '|r')
 			end
 		end
 	end
 )
-AutoLog:RegisterEvent("PLAYER_ENTERING_WORLD")
-AutoLog:RegisterEvent("PLAYER_DIFFICULTY_CHANGED")
-AutoLog:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-AutoLog:RegisterEvent("CHALLENGE_MODE_START")
+AutoLog:RegisterEvent('PLAYER_ENTERING_WORLD')
+AutoLog:RegisterEvent('PLAYER_DIFFICULTY_CHANGED')
+AutoLog:RegisterEvent('ZONE_CHANGED_NEW_AREA')
+AutoLog:RegisterEvent('CHALLENGE_MODE_START')
 
 -- [[ 成就、死亡和升級自動截圖 ]] --
 
 -- 延遲一秒
 local delay = 1
 local time = 0
-local AutoScreenshot = CreateFrame("Frame")
+local AutoScreenshot = CreateFrame('Frame')
 AutoScreenshot:Hide()
-AutoScreenshot:RegisterEvent("ACHIEVEMENT_EARNED")
-AutoScreenshot:RegisterEvent("PLAYER_DEAD")
-AutoScreenshot:RegisterEvent("PLAYER_LEVEL_UP")
-AutoScreenshot:RegisterEvent("CHALLENGE_MODE_COMPLETED") -- SCENARIO_COMPLETED/SCENARIO_CRITERIA_UPDATE/SCENARIO_UPDATE?
+AutoScreenshot:RegisterEvent('ACHIEVEMENT_EARNED')
+AutoScreenshot:RegisterEvent('PLAYER_DEAD')
+AutoScreenshot:RegisterEvent('PLAYER_LEVEL_UP')
+AutoScreenshot:RegisterEvent('CHALLENGE_MODE_COMPLETED') -- SCENARIO_COMPLETED/SCENARIO_CRITERIA_UPDATE/SCENARIO_UPDATE?
 
 AutoScreenshot:SetScript(
-	"OnUpdate",
+	'OnUpdate',
 	function(self, elapsed)
 		time = time + elapsed
 		if time >= delay then
@@ -183,7 +185,7 @@ AutoScreenshot:SetScript(
 )
 
 AutoScreenshot:SetScript(
-	"OnEvent",
+	'OnEvent',
 	function(self, event, ...)
 		self:Show()
 	end
