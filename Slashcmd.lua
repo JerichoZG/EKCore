@@ -1,18 +1,21 @@
 -- [[ 快速指令 ]] --
 
-	--	Credits:
-	--	MONOUI: https://www.wowinterface.com/downloads/info18071-MonoUI.html
-	--	https://www.wowinterface.com/forums/showthread.php?t=52673
+--	Credits:
+--	MONOUI: https://www.wowinterface.com/downloads/info18071-MonoUI.html
+--	https://www.wowinterface.com/forums/showthread.php?t=52673
 
 -- [[ 協助選項，輸入/uihelp查看cmd ]] --
 
-local HelpFrame = CreateFrame("Frame",nil,UIParent)
+local HelpFrame = CreateFrame("Frame", nil, UIParent)
 HelpFrame:RegisterEvent("PLAYER_LOGIN")
-HelpFrame:SetScript("OnEvent", function(self, event)
-	if event == "PLAYER_LOGIN" then
-		print("|cff00ffffEK|rCore:輸入/uihelp查看指令")
+HelpFrame:SetScript(
+	"OnEvent",
+	function(self, event)
+		if event == "PLAYER_LOGIN" then
+			print("|cff00ffffEK|rCore:輸入/uihelp查看指令")
+		end
 	end
-end)
+)
 
 StaticPopupDialogs.UI_HELP = {
 	text = "重載界面：/rl \n載入預設的介面設定：/setui \n\n載入預設的插件設定： \nBW或DBM設定：/setbw或/setdbm \nCompactraid設定：/setcr \nMSBT設定：/setmsbt \n\n聊天框體： \n清除單頁內容：/cc \n清除所有內容：/cca \n開啟大腳世界頻道：/dchat \n重置位置：/setchat \n\n自由拾取：/ffa \n準備確認：/rc \n角色職責檢查：/cr \n\n解散隊伍：/rd \n離開隊伍：/lg \n小隊團隊轉換：/rtp /ptr \n\n離開戰場或競技場：/lbg  \n重置副本：/dgr \n隨機副本傳送：/dgt \n\n切換副本模式： \n五人：/5n /5h /5m  \n舊團隊：/10n /10h /25n /25h \n團隊：/nm /hm /mm \n\n切換專精：/s#，#為專精排序數字 \n\n小地圖右鍵開啟微型選單 \n滾輪可縮放地圖，alt+滾輪可縮放框體",
@@ -20,7 +23,7 @@ StaticPopupDialogs.UI_HELP = {
 	timeout = 0,
 	whileDead = true,
 	hideOnEscape = true,
-	preferredIndex = 5,
+	preferredIndex = 5
 }
 
 SlashCmdList["UIHELP"] = function(msg)
@@ -38,7 +41,7 @@ end
 SLASH_RELOADUI1 = "/rl"
 
 -- moune emote / 座騎特殊動作
-SlashCmdList["MOUNTSP"] = function(msg) 
+SlashCmdList["MOUNTSP"] = function(msg)
 	if GetUnitSpeed("player") == 0 then
 		DoEmote("MOUNTSPECIAL")
 	end
@@ -74,7 +77,7 @@ SLASH_ETTRACE1 = "/et" --etrace
 -- Blizzard_Console
 SlashCmdList["DEV"] = function(msg)
 	UIParentLoadAddOn("Blizzard_Console")
-	DeveloperConsole:Toggle()	-- esc to exit
+	DeveloperConsole:Toggle() -- esc to exit
 end
 SLASH_DEV1 = "/dev"
 
@@ -83,7 +86,7 @@ SlashCmdList["FRAMENAME"] = function()
 	local frame = EnumerateFrames()
 	while frame do
 		if (frame:IsVisible() and MouseIsOver(frame)) then
-			print(frame:GetName() or string.format(UNKNOWN..": [%s]", tostring(frame)))
+			print(frame:GetName() or string.format(UNKNOWN .. ": [%s]", tostring(frame)))
 		end
 		frame = EnumerateFrames(frame)
 	end
@@ -95,7 +98,7 @@ local frame = frame
 SlashCmdList["ALIGN"] = function()
 	if frame then
 		frame:Hide()
-		frame = nil		
+		frame = nil
 	else
 		frame = CreateFrame("Frame", nil, UIParent)
 		frame:SetAllPoints(UIParent)
@@ -127,30 +130,33 @@ SLASH_ALIGN1 = "/align"
 
 -- [[ 專精切換 ]] --
 
-SlashCmdList["S1"] = function(msg) 
+SlashCmdList["S1"] = function(msg)
 	local specName = select(2, GetSpecializationInfo(1))
-	SetSpecialization(1) 
-	print(SWITCH.." >"..specName.."< "..SPECIALIZATION.."...") end
+	SetSpecialization(1)
+	print(SWITCH .. " >" .. specName .. "< " .. SPECIALIZATION .. "...")
+end
 SLASH_S11 = "/s1"
 
-SlashCmdList["S2"] = function(msg) 
+SlashCmdList["S2"] = function(msg)
 	local specName = select(2, GetSpecializationInfo(2))
-	SetSpecialization(2) 
-	print(SWITCH.." >"..specName.."< "..SPECIALIZATION.."...") end
+	SetSpecialization(2)
+	print(SWITCH .. " >" .. specName .. "< " .. SPECIALIZATION .. "...")
+end
 SLASH_S21 = "/s2"
 
-SlashCmdList["S3"] = function(msg) 
+SlashCmdList["S3"] = function(msg)
 	local specName = select(2, GetSpecializationInfo(3))
-	SetSpecialization(3) 
-	print(SWITCH.." >"..specName.."< "..SPECIALIZATION.."...") end
+	SetSpecialization(3)
+	print(SWITCH .. " >" .. specName .. "< " .. SPECIALIZATION .. "...")
+end
 SLASH_S31 = "/s3"
 
-SlashCmdList["S4"] = function(msg) 
+SlashCmdList["S4"] = function(msg)
 	local specName = select(2, GetSpecializationInfo(4))
-	SetSpecialization(4) 
-	print(SWITCH.." >"..specName.."< "..SPECIALIZATION.."...") end
+	SetSpecialization(4)
+	print(SWITCH .. " >" .. specName .. "< " .. SPECIALIZATION .. "...")
+end
 SLASH_S41 = "/s4"
-
 
 -- [[ 副本 ]] --
 
@@ -158,11 +164,10 @@ SLASH_S41 = "/s4"
 SlashCmdList["EASYLOGGER"] = function(msg)
 	if not LoggingCombat() then
 		LoggingCombat(true)
-		print("|cff00FF00"..COMBATLOGENABLED.."|r")
+		print("|cff00FF00" .. COMBATLOGENABLED .. "|r")
 	else
 		LoggingCombat(false)
-		print("|cffFF0000"..COMBATLOGDISABLED.."|r")
-		
+		print("|cffFF0000" .. COMBATLOGDISABLED .. "|r")
 	end
 end
 SLASH_EASYLOGGER1 = "/el"
@@ -184,7 +189,7 @@ SlashCmdList["DGT"] = function(msg)
 end
 SLASH_DGT1 = "/dgt"
 
--- 五人副本模式切換 
+-- 五人副本模式切換
 SlashCmdList["DGFIVE"] = function(msg)
 	SetDungeonDifficultyID(1)
 end
@@ -265,18 +270,18 @@ SLASH_EIA1 = "/ea"
 
 -- 團隊轉小隊 /rtp
 SlashCmdList["RAIDTOPARTY"] = function(msg)
-	if IsInRaid() then	--在團隊中
-		if (GetNumGroupMembers() <= MEMBERS_PER_RAID_GROUP) then	-- 人數在5以下
-			if UnitIsGroupLeader("player") then	-- 是團長
+	if IsInRaid() then --在團隊中
+		if (GetNumGroupMembers() <= MEMBERS_PER_RAID_GROUP) then -- 人數在5以下
+			if UnitIsGroupLeader("player") then -- 是團長
 				ConvertToParty()
 				print(CONVERT_TO_PARTY)
-			else	-- 無權限
+			else -- 無權限
 				print(ERR_GUILD_PERMISSIONS)
 			end
-		else	-- 超過5人
-				print(ERR_READY_CHECK_THROTTLED)
+		else -- 超過5人
+			print(ERR_READY_CHECK_THROTTLED)
 		end
-	elseif (IsInGroup() and not IsInRaid()) then	--不在團隊中
+	elseif (IsInGroup() and not IsInRaid()) then --不在團隊中
 		print(ERR_NOT_IN_RAID)
 	else
 		print(ERR_NOT_IN_GROUP)
@@ -286,14 +291,14 @@ SLASH_RAIDTOPARTY1 = "/rtp"
 
 -- 小隊轉團隊 /ptr
 SlashCmdList["PARTYTORAID"] = function(msg)
-	if IsInRaid() then	-- 在團隊中
+	if IsInRaid() then -- 在團隊中
 		print(ERR_PARTY_CONVERTED_TO_RAID)
-	elseif (IsInGroup() and UnitIsGroupLeader("player")) and not IsInRaid() then	-- 是隊長
+	elseif (IsInGroup() and UnitIsGroupLeader("player")) and not IsInRaid() then -- 是隊長
 		ConvertToRaid()
 		print(CONVERT_TO_RAID)
-	elseif (IsInGroup() and not UnitIsGroupLeader("player")) and not IsInRaid() then	-- 不是隊長
-		print(LFG_LIST_NOT_LEADER)	-- or use ERR_GUILD_PERMISSIONS
-	else	-- 不在隊伍中
+	elseif (IsInGroup() and not UnitIsGroupLeader("player")) and not IsInRaid() then -- 不是隊長
+		print(LFG_LIST_NOT_LEADER) -- or use ERR_GUILD_PERMISSIONS
+	else -- 不在隊伍中
 		print(ERR_NOT_IN_GROUP)
 	end
 end
@@ -312,9 +317,9 @@ local GroupDisband = function()
 		end
 	else
 		for i = MAX_PARTY_MEMBERS, 1, -1 do
-			if (UnitExists("party"..i)) then
-				UninviteUnit(UnitName("party"..i))
-				SendChatMessage("Disbanding group.", "PARTY")	-- TEAM_DISBAND
+			if (UnitExists("party" .. i)) then
+				UninviteUnit(UnitName("party" .. i))
+				SendChatMessage("Disbanding group.", "PARTY") -- TEAM_DISBAND
 			end
 		end
 	end
@@ -328,10 +333,10 @@ StaticPopupDialogs["DISBAND_RAID"] = {
 	timeout = 20,
 	whileDead = true,
 	hideOnEscape = true,
-	preferredIndex = 5,
-	}
+	preferredIndex = 5
+}
 SlashCmdList["GROUPDISBAND"] = function(msg)
-	if  IsInRaid() then
+	if IsInRaid() then
 		StaticPopup_Show("DISBAND_RAID")
 	end
 end
@@ -342,24 +347,27 @@ SlashCmdList["BG"] = function(msg)
 	local _, instanceType = IsInInstance()
 	if instanceType == "arena" or instanceType == "pvp" then
 		if instanceType == "pvp" then
-			instanceType = "battleground"	-- 戰場
+			instanceType = "battleground" -- 戰場
 		elseif instanceType == "arena" then
-			if select(2, IsActiveBattlefieldArena()) then 
-				instanceType = "rated arena match"	-- 積分
-			else 
-				instanceType = "arena skirmish"	-- 練習
+			if select(2, IsActiveBattlefieldArena()) then
+				instanceType = "rated arena match" -- 積分
+			else
+				instanceType = "arena skirmish" -- 練習
 			end
 		end
 		StaticPopupDialogs["LeaveBattleField"] = {
-			text = LEAVE_BATTLEGROUND, 
+			text = LEAVE_BATTLEGROUND,
 			button1 = YES,
 			button2 = NO,
 			timeout = 20,
-			whileDead = true, 
+			whileDead = true,
 			hideOnEscape = true,
-			OnAccept = function() LeaveBattlefield() end,
-			OnCancel = function() end,
-			preferredIndex = 5,
+			OnAccept = function()
+				LeaveBattlefield()
+			end,
+			OnCancel = function()
+			end,
+			preferredIndex = 5
 		}
 		StaticPopup_Show("LeaveBattleField")
 	end
